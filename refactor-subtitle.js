@@ -33,7 +33,7 @@ const analyzeSubtitle = function (subtitlePath) {
     const cues = transcript
         .split("\n\n")
         .filter(
-            (line) => !line.startsWith("WEBVTT") && !line.startsWith("::cue")
+            (line) => !line.startsWith("WEBVTT") && !line.startsWith("STYLE")
         )
         .map((line) => {
             const [time, text] = line.split("\n");
@@ -56,11 +56,11 @@ export const refactorSubtitle = function (subtitlePath, payload) {
     console.log(sentences, words);
 
     let vtt = new VTT();
-    // vtt.addStyle("b", {
-    //     "background-color": "green",
-    //     color: "red",
-    //     "font-style": "italic",
-    // });
+    vtt.addStyle("b", {
+        "background-color": "green",
+        color: "red",
+        "font-style": "italic",
+    });
 
     let i,
         j = 0,
@@ -72,15 +72,18 @@ export const refactorSubtitle = function (subtitlePath, payload) {
         let currentText = sentences[j].text,
             currentWord = words[i].text;
         slide = currentText.indexOf(currentWord, slide);
+
+        let subtitleEnd =
+            i + 1 < words.length && words[i + 1].start - words[i].end < 500
+                ? words[i + 1].start
+                : words[i].end;
         vtt.add(
             words[i].start / 1000,
-            (i + 1 < words.length && words[i + 1].start - words[i].end < 500
-                ? words[i + 1].start
-                : words[i].end) / 1000,
+            (subtitleEnd - 50) / 1000,
             `${currentText.substring(
                 0,
                 slide
-            )}<i><b>${currentWord}</b></i>${currentText.substring(
+            )}<b>${currentWord}</b>${currentText.substring(
                 slide + currentWord.length
             )}`
         );
