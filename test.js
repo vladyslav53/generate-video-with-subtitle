@@ -1,6 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-require("isomorphic-fetch");
+import fs from "fs";
+import path from "path";
+import "isomorphic-fetch"
 
 const API_KEY = "c40a39355ce24125837acf90f76d42f6";
 const VIDEO_FILE = path.resolve("./public/IMG_3013.mp4");
@@ -120,3 +120,5 @@ async function main() {
 main().catch((error) => {
     console.error(error);
 });
+
+console.log([5].join("a"));

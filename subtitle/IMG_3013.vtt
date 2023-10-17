@@ -1,10 +1,92 @@
 WEBVTT
 
-00:00.170 --> 00:02.746
-Making waves as a possible contender to Ethereum's
+STYLE
+::cue(b) {
+    background-color: green;
+    color: red;
+    font-style: italic;
+}
 
-00:02.778 --> 00:05.946
-Throne, founded by the brilliant minds of Jonathan
+1
+00:00:00.170 --> 00:00:00.436
+<b>Making</b> waves as a possible contender to Ethereum's
 
-00:05.978 --> 00:08.810
-Sompalinsky and Aviv Zohar Kaspa.
+2
+00:00:00.436 --> 00:00:00.826
+Making <b>waves</b> as a possible contender to Ethereum's
+
+3
+00:00:00.826 --> 00:00:01.028
+Making waves <b>as</b> a possible contender to Ethereum's
+
+4
+00:00:01.028 --> 00:00:01.124
+Making waves as <b>a</b> possible contender to Ethereum's
+
+5
+00:00:01.124 --> 00:00:01.460
+Making waves as a <b>possible</b> contender to Ethereum's
+
+6
+00:00:01.460 --> 00:00:01.978
+Making waves as a possible <b>contender</b> to Ethereum's
+
+7
+00:00:01.978 --> 00:00:02.212
+Making waves as a possible contender <b>to</b> Ethereum's
+
+8
+00:00:02.212 --> 00:00:02.778
+Making waves as a possible contender to <b>Ethereum's</b>
+
+9
+00:00:02.778 --> 00:00:03.738
+<b>Throne,</b> founded by the brilliant minds of Jonathan
+
+10
+00:00:03.738 --> 00:00:04.234
+Throne, <b>founded</b> by the brilliant minds of Jonathan
+
+11
+00:00:04.234 --> 00:00:04.388
+Throne, founded <b>by</b> the brilliant minds of Jonathan
+
+12
+00:00:04.388 --> 00:00:04.548
+Throne, founded by <b>the</b> brilliant minds of Jonathan
+
+13
+00:00:04.548 --> 00:00:04.938
+Throne, founded by the <b>brilliant</b> minds of Jonathan
+
+14
+00:00:04.938 --> 00:00:05.194
+Throne, founded by the brilliant <b>minds</b> of Jonathan
+
+15
+00:00:05.194 --> 00:00:05.348
+Throne, founded by the brilliant minds <b>of</b> Jonathan
+
+16
+00:00:05.348 --> 00:00:05.978
+Throne, founded by the brilliant minds of <b>Jonathan</b>
+
+17
+00:00:05.978 --> 00:00:06.922
+<b>Sompalinsky</b> and Aviv Zohar Kaspa.
+
+18
+00:00:06.922 --> 00:00:07.108
+Sompalinsky <b>and</b> Aviv Zohar Kaspa.
+
+19
+00:00:07.108 --> 00:00:07.562
+Sompalinsky and <b>Aviv</b> Zohar Kaspa.
+
+20
+00:00:07.562 --> 00:00:08.314
+Sompalinsky and Aviv <b>Zohar</b> Kaspa.
+
+21
+00:00:08.314 --> 00:00:08.810
+Sompalinsky and Aviv Zohar <b>Kaspa.</b>

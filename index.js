@@ -6,31 +6,41 @@ import { mkdirp } from "mkdirp";
 import { getBasenameWithoutExt } from "./utils.js";
 import { generateSubtitleFile } from "./transcribe-video.js";
 import { generateVideo } from "./generate-video.js";
+import { refactorSubtitle } from "./refactor-subtitle.js";
 
 async function generateVideoWithSubtitle(videoPath) {
     /**Make necessary folders */
     mkdirp.sync(process.env.SUBTITLE_FOLDER);
     mkdirp.sync(process.env.OUTPUT_FOLDER);
 
-    let subtitlePath = path.resolve(
-        path.join(
+    let subtitlePath = path
+        .join(
             process.env.SUBTITLE_FOLDER,
             `${getBasenameWithoutExt(videoPath)}.${process.env.SUBTITLE_EXT}`
         )
-    );
-    let resultPath = path.resolve(
-        path.join(
+        .replace("\\", "/");
+    let resultPath = path
+        .join(
             process.env.OUTPUT_FOLDER,
             `${getBasenameWithoutExt(videoPath)}.mp4`
         )
+        .replace("\\", "/");
+    let [subtitleGenerated, payload] = await generateSubtitleFile(
+        videoPath,
+        subtitlePath
     );
-    let subtitleGenerated = await generateSubtitleFile(videoPath, subtitlePath);
+
     if (subtitleGenerated == false) return false;
     console.log("subtitle Generated");
+
+    let refactored = refactorSubtitle(subtitlePath, payload);
+    if (refactored == false) return false;
+    console.log("subtitle Refactored");
+
     await generateVideo(videoPath, subtitlePath, resultPath);
     console.log("video Generated");
 }
 
-// generateVideoWithSubtitle("./public/IMG_3013.mp4");
+generateVideoWithSubtitle("./public/test1.mp4");
 
-generateVideo("./public/IMG_3013.mp4", "./subtitle/IMG_3013.vtt", "./output/result.mp4")
+// generateVideo("./public/IMG_3013.mp4", "./subtitle/IMG_3013.vtt", "./output/result.mp4")

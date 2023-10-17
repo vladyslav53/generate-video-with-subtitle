@@ -19,7 +19,7 @@ export const generateSubtitleFile = async function (videoPath, subtitlePath) {
         videoPath = path.resolve(videoPath);
         if (!fs.pathExistsSync(videoPath)) {
             console.log(videoPath + " doesn't exist.");
-            return false;
+            return [false];
         }
         const audioData = await fs.readFile(path.resolve(videoPath));
         const uploadResponse = await axios.post(
@@ -46,17 +46,19 @@ export const generateSubtitleFile = async function (videoPath, subtitlePath) {
     const transcriptId = response.data.id;
     const pollingEndpoint = `${baseUrl}/transcript/${transcriptId}`;
 
+    let transcriptionResult;
+
     while (true) {
         const pollingResponse = await axios.get(pollingEndpoint, {
             headers: headers,
         });
-        const transcriptionResult = pollingResponse.data;
+        transcriptionResult = pollingResponse.data;
 
         if (transcriptionResult.status === "completed") {
             break;
         } else if (transcriptionResult.status === "error") {
             console.error(`Transcription failed: ${transcriptionResult.error}`);
-            return false;
+            return [false];
         } else {
             await new Promise((resolve) => setTimeout(resolve, 3000));
         }
@@ -95,8 +97,8 @@ export const generateSubtitleFile = async function (videoPath, subtitlePath) {
         await fs.writeFile(subtitlePath, subtitles);
     } catch (error) {
         console.log(error);
-        return false;
+        return [false];
     }
 
-    return true;
+    return [true, transcriptionResult];
 };
