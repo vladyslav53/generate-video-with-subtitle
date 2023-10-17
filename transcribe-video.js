@@ -67,7 +67,7 @@ export const generateSubtitleFile = async function (videoPath, subtitlePath) {
     /**Export your complete transcripts in SRT or VTT format, to be plugged into a video player for subtitles and closed captions.
     To get the subtitles, send a GET request to the /v2/transcript/:id/:subtitle_format endpoint. The format is either srt or vtt. */
 
-    async function getSubtitleFile(transcriptId, fileFormat) {
+    async function getSubtitleFile(transcriptId, fileFormat = "vtt") {
         if (!["srt", "vtt"].includes(fileFormat)) {
             throw new Error(
                 `Unsupported file format: ${fileFormat}. Please specify 'srt' or 'vtt'.`
@@ -89,10 +89,7 @@ export const generateSubtitleFile = async function (videoPath, subtitlePath) {
     }
 
     try {
-        const subtitles = await getSubtitleFile(
-            transcriptId,
-            process.env.SUBTITLE_EXT // or srt
-        );
+        const subtitles = await getSubtitleFile(transcriptId);
 
         await fs.writeFile(subtitlePath, subtitles);
     } catch (error) {

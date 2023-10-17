@@ -1,5 +1,6 @@
 import fs from "fs-extra";
 import secondsToTime from "vtt-creator/src/secondsToTime.js";
+import webvtt2ass from "webvtt2ass";
 
 function VTT() {
     var counter = 0;
@@ -49,7 +50,7 @@ const analyzeSubtitle = function (subtitlePath) {
     return cues;
 };
 
-export const refactorSubtitle = function (subtitlePath, payload) {
+export const refactorSubtitle = async function (subtitlePath, payload) {
     let sentences = analyzeSubtitle(subtitlePath);
     let words = payload.words || [];
 
@@ -91,7 +92,13 @@ export const refactorSubtitle = function (subtitlePath, payload) {
         slide = slide + currentWord.length;
     }
     try {
-        fs.writeFileSync(subtitlePath, vtt.toString());
+        let writable = fs.createWriteStream(subtitlePath);
+        fs.writeFileSync(subtitlePath + ".vtt", vtt.toString());
+        webvtt2ass(subtitlePath + ".vtt", writable);
+        await new Promise((resolve, reject) => {
+            writable.on("close", resolve);
+            writable.on("error", reject);
+        });
         return true;
     } catch (error) {
         console.log(error);
