@@ -7,10 +7,6 @@ import { getBasenameWithoutExt } from "./utils.js";
 import { generateSubtitleFile } from "./transcribe-video.js";
 import { generateVideo } from "./generate-video.js";
 import { refactorSubtitle } from "./refactor-subtitle.js";
-// import {
-//     addSubtitleAndSaveVideoWithSubtitles,
-//     startVLCWithCustomPort,
-// } from "./vlc.js";
 
 async function generateVideoWithSubtitle(videoPath) {
     /**Make necessary folders */
@@ -40,20 +36,6 @@ async function generateVideoWithSubtitle(videoPath) {
     let refactored = refactorSubtitle(subtitlePath, payload);
     if (refactored == false) return false;
     console.log("subtitle Refactored");
-
-    // let port = 8081,
-    //     vlcProcess = startVLCWithCustomPort(port);
-    // await addSubtitleAndSaveVideoWithSubtitles(
-    //     videoPath,
-    //     subtitlePath,
-    //     resultPath,
-    //     port
-    // );
-
-    // setTimeout(() => {
-    //     vlcProcess.kill();
-    //     console.log("VLC terminated");
-    // }, 10000);
 
     await generateVideo(videoPath, subtitlePath, resultPath);
     console.log("video Generated");

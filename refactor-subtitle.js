@@ -1,6 +1,5 @@
 import fs from "fs-extra";
 import secondsToTime from "vtt-creator/src/secondsToTime.js";
-import webvtt2ass from "webvtt2ass";
 
 function VTT() {
     var counter = 0;
@@ -50,18 +49,18 @@ const analyzeSubtitle = function (subtitlePath) {
     return cues;
 };
 
-export const refactorSubtitle = async function (subtitlePath, payload) {
+export const refactorSubtitle = function (subtitlePath, payload) {
     let sentences = analyzeSubtitle(subtitlePath);
     let words = payload.words || [];
 
     console.log(sentences, words);
 
     let vtt = new VTT();
-    vtt.addStyle("b", {
-        "background-color": "green",
-        color: "red",
-        "font-style": "italic",
-    });
+    // vtt.addStyle("b", {
+    //     "background-color": "green",
+    //     color: "red",
+    //     "font-style": "italic",
+    // });
 
     let i,
         j = 0,
@@ -80,25 +79,20 @@ export const refactorSubtitle = async function (subtitlePath, payload) {
                 : words[i].end;
         vtt.add(
             words[i].start / 1000,
-            (subtitleEnd - 50) / 1000,
+            (subtitleEnd) / 1000,
             `${currentText.substring(
                 0,
                 slide
-            )}<b>${currentWord}</b>${currentText.substring(
+            )}<u>${currentWord}</u>${currentText.substring(
                 slide + currentWord.length
             )}`
         );
+        // vtt.add((subtitleEnd - 30) / 1000, subtitleEnd / 1000, "_".repeat(55));
 
         slide = slide + currentWord.length;
     }
     try {
-        let writable = fs.createWriteStream(subtitlePath);
-        fs.writeFileSync(subtitlePath + ".vtt", vtt.toString());
-        webvtt2ass(subtitlePath + ".vtt", writable);
-        await new Promise((resolve, reject) => {
-            writable.on("close", resolve);
-            writable.on("error", reject);
-        });
+        fs.writeFileSync(subtitlePath, vtt.toString());
         return true;
     } catch (error) {
         console.log(error);
